@@ -1448,55 +1448,85 @@ if (
 
 
             /* -----------------------------------------
-               POPULÆRE SANGE
-            ----------------------------------------- */
+   POPULÆRE SANGE
+----------------------------------------- */
 
-            const artistPopularSongs =
-                document.getElementById(
-                    "artist-popular-songs"
+const artistPopularSongs =
+    document.getElementById(
+        "artist-popular-songs"
+    );
+
+
+if (artistPopularSongs) {
+
+    artistPopularSongs.innerHTML =
+        "";
+
+
+    const playHistory =
+        JSON.parse(
+            localStorage.getItem(
+                "playHistory"
+            )
+        ) || [];
+
+
+    const playCounts = {};
+
+
+    playHistory.forEach(
+        songId => {
+
+            playCounts[songId] =
+                (
+                    playCounts[songId] || 0
+                ) + 1;
+
+        }
+    );
+
+
+    const popularSongs =
+        [...matchingSongs]
+            .sort(
+                (a, b) =>
+                    (
+                        playCounts[b.id] || 0
+                    ) -
+                    (
+                        playCounts[a.id] || 0
+                    )
+            )
+            .slice(0, 5);
+
+
+    if (
+        popularSongs.length === 0
+    ) {
+
+        artistPopularSongs.innerHTML = `
+
+            <p class="empty-message">
+                Denne kunstner har ingen populære sange endnu.
+            </p>
+
+        `;
+
+    } else {
+
+        popularSongs.forEach(
+            song => {
+
+                artistPopularSongs.appendChild(
+                    createSongCard(song)
                 );
 
-
-            if (artistPopularSongs) {
-
-                artistPopularSongs.innerHTML =
-                    "";
-
-
-                const popularSongs =
-                    matchingSongs.slice(
-                        0,
-                        5
-                    );
-
-
-                if (
-                    popularSongs.length === 0
-                ) {
-
-                    artistPopularSongs.innerHTML = `
-
-                        <p class="empty-message">
-                            Denne kunstner har ingen populære sange endnu.
-                        </p>
-
-                    `;
-
-                } else {
-
-                    popularSongs.forEach(
-                        song => {
-
-                            artistPopularSongs.appendChild(
-                                createSongCard(song)
-                            );
-
-                        }
-                    );
-
-                }
-
             }
+        );
+
+    }
+
+}
 
 
             /* -----------------------------------------
