@@ -1280,10 +1280,6 @@ if (
     const artistId =
         Number(params.get("id"));
 
-    /*
-       Hvis der er et artist-id,
-       viser vi kunstnersiden.
-    */
 
     if (artistId) {
 
@@ -1396,9 +1392,7 @@ if (
 
             if (artistHeroImage) {
 
-                if (
-                    selectedArtist.image
-                ) {
+                if (selectedArtist.image) {
 
                     artistHeroImage.innerHTML = `
 
@@ -1433,7 +1427,80 @@ if (
 
 
             /* -----------------------------------------
-               ARTIST SANGE
+               FIND ARTISTENS SANGE
+            ----------------------------------------- */
+
+            let matchingSongs = [];
+
+
+            if (
+                typeof songs !== "undefined"
+            ) {
+
+                matchingSongs =
+                    songs.filter(
+                        song =>
+                            song.artist ===
+                            selectedArtist.name
+                    );
+
+            }
+
+
+            /* -----------------------------------------
+               POPULÆRE SANGE
+            ----------------------------------------- */
+
+            const artistPopularSongs =
+                document.getElementById(
+                    "artist-popular-songs"
+                );
+
+
+            if (artistPopularSongs) {
+
+                artistPopularSongs.innerHTML =
+                    "";
+
+
+                const popularSongs =
+                    matchingSongs.slice(
+                        0,
+                        5
+                    );
+
+
+                if (
+                    popularSongs.length === 0
+                ) {
+
+                    artistPopularSongs.innerHTML = `
+
+                        <p class="empty-message">
+                            Denne kunstner har ingen populære sange endnu.
+                        </p>
+
+                    `;
+
+                } else {
+
+                    popularSongs.forEach(
+                        song => {
+
+                            artistPopularSongs.appendChild(
+                                createSongCard(song)
+                            );
+
+                        }
+                    );
+
+                }
+
+            }
+
+
+            /* -----------------------------------------
+               ALLE ARTISTENS SANGE
             ----------------------------------------- */
 
             const artistSongs =
@@ -1442,20 +1509,10 @@ if (
                 );
 
 
-            if (
-                artistSongs &&
-                typeof songs !== "undefined"
-            ) {
+            if (artistSongs) {
 
-                artistSongs.innerHTML = "";
-
-
-                const matchingSongs =
-                    songs.filter(
-                        song =>
-                            song.artist ===
-                            selectedArtist.name
-                    );
+                artistSongs.innerHTML =
+                    "";
 
 
                 if (
@@ -1502,7 +1559,8 @@ if (
                 typeof albums !== "undefined"
             ) {
 
-                artistAlbums.innerHTML = "";
+                artistAlbums.innerHTML =
+                    "";
 
 
                 const matchingAlbums =
