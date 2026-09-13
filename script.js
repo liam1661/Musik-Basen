@@ -291,11 +291,11 @@ function updateFavoriteButtons() {
 }
 
 
-/* =========================================================
-   PLAY HISTORY
-========================================================= */
-
 function addToPlayHistory(songId) {
+
+    /* ---------------------------------------------------------
+       SENEST AFSPILLEDE SANGE
+    --------------------------------------------------------- */
 
     let playHistory =
         JSON.parse(
@@ -304,11 +304,6 @@ function addToPlayHistory(songId) {
             )
         ) || [];
 
-
-    /*
-       Fjern sangen først hvis den allerede findes.
-       Derefter sættes den øverst.
-    */
 
     playHistory =
         playHistory.filter(
@@ -321,10 +316,6 @@ function addToPlayHistory(songId) {
     );
 
 
-    /*
-       Maks 20 sange i historikken
-    */
-
     playHistory =
         playHistory.slice(
             0,
@@ -336,6 +327,48 @@ function addToPlayHistory(songId) {
         "playHistory",
         JSON.stringify(playHistory)
     );
+
+
+    /* ---------------------------------------------------------
+       ANTAL AFSPILNINGER
+    --------------------------------------------------------- */
+
+    const playCounts =
+        JSON.parse(
+            localStorage.getItem(
+                "playCounts"
+            )
+        ) || {};
+
+
+    playCounts[songId] =
+        (
+            playCounts[songId] || 0
+        ) + 1;
+
+
+    localStorage.setItem(
+        "playCounts",
+        JSON.stringify(playCounts)
+    );
+
+}
+
+/* =========================================================
+   HENT ANTAL AFSPILNINGER
+========================================================= */
+
+function getPlayCount(songId) {
+
+    const playCounts =
+        JSON.parse(
+            localStorage.getItem(
+                "playCounts"
+            )
+        ) || {};
+
+
+    return playCounts[songId] || 0;
 
 }
 
