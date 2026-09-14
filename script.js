@@ -1520,17 +1520,13 @@ if (artistPopularSongs) {
 
 
     const popularSongs =
-        [...matchingSongs]
-            .sort(
-                (a, b) =>
-                    (
-                        playCounts[b.id] || 0
-                    ) -
-                    (
-                        playCounts[a.id] || 0
-                    )
-            )
-            .slice(0, 5);
+    [...matchingSongs]
+        .sort(
+            (a, b) =>
+                getPlayCount(b.id) -
+                getPlayCount(a.id)
+        )
+        .slice(0, 5);
 
 
     if (
@@ -3151,9 +3147,15 @@ if (
 
 
     songs
-        .slice(0, 10)
-        .forEach(
-            (song, index) => {
+    .slice()
+    .sort(
+        (a, b) =>
+            getPlayCount(b.id) -
+            getPlayCount(a.id)
+    )
+    .slice(0, 10)
+    .forEach(
+        (song, index) => {
 
                 const item =
                     document.createElement(
