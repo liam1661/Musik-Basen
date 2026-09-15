@@ -2219,6 +2219,91 @@ if (
     );
 
 }
+
+/* =========================================================
+   HEADER BUTTONS
+========================================================= */
+
+const searchButton =
+    document.getElementById(
+        "search-button"
+    );
+
+
+const profileButton =
+    document.getElementById(
+        "profile-button"
+    );
+
+
+/* ---------------------------------------------------------
+   SØG
+--------------------------------------------------------- */
+
+if (
+    searchButton
+) {
+
+    searchButton.addEventListener(
+        "click",
+        () => {
+
+            const searchInput =
+                document.getElementById(
+                    "search-input"
+                );
+
+
+            if (
+                searchInput
+            ) {
+
+                searchInput.focus();
+
+                searchInput.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+                return;
+
+            }
+
+
+            window.location.href =
+                pageUrl(
+                    "index.html"
+                );
+
+        }
+    );
+
+}
+
+
+/* ---------------------------------------------------------
+   PROFIL
+--------------------------------------------------------- */
+
+if (
+    profileButton
+) {
+
+    profileButton.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                pageUrl(
+                    "profile.html"
+                );
+
+        }
+    );
+
+}
+
+
 /* =========================================================
    MUSIKBASEN
    DEL 3/4
@@ -3025,9 +3110,61 @@ if (
 
 
     artists
-        .slice(0, 10)
-        .forEach(
-            (artist, index) => {
+    .slice()
+    .sort(
+        (a, b) => {
+
+            const aPlays =
+                typeof songs !== "undefined"
+                    ? songs
+                        .filter(
+                            song =>
+                                song.artist ===
+                                a.name
+                        )
+                        .reduce(
+                            (
+                                total,
+                                song
+                            ) =>
+                                total +
+                                getPlayCount(
+                                    song.id
+                                ),
+                            0
+                        )
+                    : 0;
+
+
+            const bPlays =
+                typeof songs !== "undefined"
+                    ? songs
+                        .filter(
+                            song =>
+                                song.artist ===
+                                b.name
+                        )
+                        .reduce(
+                            (
+                                total,
+                                song
+                            ) =>
+                                total +
+                                getPlayCount(
+                                    song.id
+                                ),
+                            0
+                        )
+                    : 0;
+
+
+            return bPlays - aPlays;
+
+        }
+    )
+    .slice(0, 10)
+    .forEach(
+        (artist, index) => {
 
                 const item =
                     document.createElement(
@@ -3253,9 +3390,61 @@ if (
 
 
     albums
-        .slice(0, 10)
-        .forEach(
-            (album, index) => {
+    .slice()
+    .sort(
+        (a, b) => {
+
+            const aPlays =
+                typeof songs !== "undefined"
+                    ? songs
+                        .filter(
+                            song =>
+                                song.album ===
+                                a.title
+                        )
+                        .reduce(
+                            (
+                                total,
+                                song
+                            ) =>
+                                total +
+                                getPlayCount(
+                                    song.id
+                                ),
+                            0
+                        )
+                    : 0;
+
+
+            const bPlays =
+                typeof songs !== "undefined"
+                    ? songs
+                        .filter(
+                            song =>
+                                song.album ===
+                                b.title
+                        )
+                        .reduce(
+                            (
+                                total,
+                                song
+                            ) =>
+                                total +
+                                getPlayCount(
+                                    song.id
+                                ),
+                            0
+                        )
+                    : 0;
+
+
+            return bPlays - aPlays;
+
+        }
+    )
+    .slice(0, 10)
+    .forEach(
+        (album, index) => {
 
                 const item =
                     document.createElement(
@@ -3491,14 +3680,26 @@ if (
    PROFILE — STATISTIK
 ========================================================= */
 
-const profileStats =
+const statFavorites =
     document.getElementById(
-        "profile-stats"
+        "stat-favorites"
+    );
+
+const statPlayed =
+    document.getElementById(
+        "stat-played"
+    );
+
+const statArtists =
+    document.getElementById(
+        "stat-artists"
     );
 
 
 if (
-    profileStats &&
+    statFavorites &&
+    statPlayed &&
+    statArtists &&
     typeof songs !== "undefined"
 ) {
 
@@ -3506,59 +3707,56 @@ if (
         getFavorites();
 
 
-    const history =
+    const playCounts =
         JSON.parse(
             localStorage.getItem(
-                "playHistory"
+                "playCounts"
             )
-        ) || [];
+        ) || {};
 
 
-    profileStats.innerHTML = `
-
-        <div class="profile-stat">
-
-            <strong>
-                ${favorites.length}
-            </strong>
-
-            <span>
-                Favoritsange
-            </span>
-
-        </div>
+    const totalPlays =
+        Object.values(
+            playCounts
+        ).reduce(
+            (total, count) =>
+                total + count,
+            0
+        );
 
 
-        <div class="profile-stat">
+    const playedArtistNames =
+        songs
+            .filter(
+                song =>
+                    (
+                        playCounts[
+                            song.id
+                        ] || 0
+                    ) > 0
+            )
+            .map(
+                song =>
+                    song.artist
+            );
 
-            <strong>
-                ${history.length}
-            </strong>
 
-            <span>
-                Afspillede sange
-            </span>
-
-        </div>
+    const uniqueArtists =
+        new Set(
+            playedArtistNames
+        );
 
 
-        <div class="profile-stat">
+    statFavorites.textContent =
+        favorites.length;
 
-            <strong>
-                ${
-                    new Set(
-                        history
-                    ).size
-                }
-            </strong>
 
-            <span>
-                Forskellige sange
-            </span>
+    statPlayed.textContent =
+        totalPlays;
 
-        </div>
 
-    `;
+    statArtists.textContent =
+        uniqueArtists.size;
 
 }
 
@@ -3579,30 +3777,26 @@ if (
     typeof artists !== "undefined"
 ) {
 
-    const history =
+    const playCounts =
         JSON.parse(
             localStorage.getItem(
-                "playHistory"
+                "playCounts"
             )
-        ) || [];
+        ) || {};
 
 
     const artistCounts = {};
 
 
-    history.forEach(
-        songId => {
+    songs.forEach(
+        song => {
 
-            const song =
-                songs.find(
-                    item =>
-                        item.id ===
-                        songId
-                );
+            const plays =
+                playCounts[song.id] || 0;
 
 
             if (
-                !song
+                plays <= 0
             ) {
 
                 return;
@@ -3617,7 +3811,7 @@ if (
                     artistCounts[
                         song.artist
                     ] || 0
-                ) + 1;
+                ) + plays;
 
         }
     );
@@ -3644,86 +3838,249 @@ if (
         "";
 
 
-    sortedArtists.forEach(
-        ([artistName, count]) => {
+    if (
+        sortedArtists.length === 0
+    ) {
 
-            const artist =
-                artists.find(
-                    item =>
-                        item.name ===
-                        artistName
+        profileTopArtists.innerHTML = `
+
+            <p class="empty-message">
+                Du har ikke afspillet
+                nogen sange endnu.
+            </p>
+
+        `;
+
+    } else {
+
+        sortedArtists.forEach(
+            ([artistName, count]) => {
+
+                const artist =
+                    artists.find(
+                        item =>
+                            item.name ===
+                            artistName
+                    );
+
+
+                if (
+                    !artist
+                ) {
+
+                    return;
+
+                }
+
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                item.className =
+                    "ranking-item";
+
+
+                item.innerHTML = `
+
+                    <div
+                        class="ranking-artist-image"
+                    >
+
+                        ${
+                            artist.image
+                                ? `
+                                    <img
+                                        src="${assetPath(
+                                            artist.image
+                                        )}"
+                                        alt="${escapeHtml(
+                                            artist.name
+                                        )}"
+                                    >
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+
+                    <div
+                        class="ranking-info"
+                    >
+
+                        <h3>
+                            ${escapeHtml(
+                                artist.name
+                            )}
+                        </h3>
+
+
+                        <p>
+                            ${count}
+                            afspilninger
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                profileTopArtists.appendChild(
+                    item
                 );
-
-
-            if (
-                !artist
-            ) {
-
-                return;
 
             }
+        );
+
+    }
+
+}
+
+/* =========================================================
+   PROFILE — MOST PLAYED SONGS
+========================================================= */
+
+const profileTopSongs =
+    document.getElementById(
+        "profile-top-songs"
+    );
 
 
-            const item =
-                document.createElement(
-                    "div"
+if (
+    profileTopSongs &&
+    typeof songs !== "undefined"
+) {
+
+    const playCounts =
+        JSON.parse(
+            localStorage.getItem(
+                "playCounts"
+            )
+        ) || {};
+
+
+    const sortedSongs =
+        [...songs]
+            .filter(
+                song =>
+                    (
+                        playCounts[
+                            song.id
+                        ] || 0
+                    ) > 0
+            )
+            .sort(
+                (a, b) =>
+                    (
+                        playCounts[
+                            b.id
+                        ] || 0
+                    ) -
+                    (
+                        playCounts[
+                            a.id
+                        ] || 0
+                    )
+            )
+            .slice(
+                0,
+                5
+            );
+
+
+    profileTopSongs.innerHTML =
+        "";
+
+
+    if (
+        sortedSongs.length === 0
+    ) {
+
+        profileTopSongs.innerHTML = `
+
+            <p class="empty-message">
+                Du har ikke afspillet
+                nogen sange endnu.
+            </p>
+
+        `;
+
+    } else {
+
+        sortedSongs.forEach(
+            (song, index) => {
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                item.className =
+                    "ranking-item";
+
+
+                item.innerHTML = `
+
+                    <div
+                        class="ranking-position"
+                    >
+                        ${index + 1}
+                    </div>
+
+
+                    <div
+                        class="ranking-info"
+                    >
+
+                        <h3>
+                            ${escapeHtml(
+                                song.title
+                            )}
+                        </h3>
+
+
+                        <p>
+                            ${escapeHtml(
+                                song.artist
+                            )}
+                            ·
+                            ${
+                                playCounts[
+                                    song.id
+                                ]
+                            }
+                            afspilninger
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                item.addEventListener(
+                    "click",
+                    () => {
+
+                        selectSong(
+                            song
+                        );
+
+                    }
                 );
 
 
-            item.className =
-                "ranking-item";
+                profileTopSongs.appendChild(
+                    item
+                );
 
+            }
+        );
 
-            item.innerHTML = `
-
-                <div
-                    class="ranking-artist-image"
-                >
-
-                    ${
-                        artist.image
-                            ? `
-                                <img
-                                    src="${assetPath(
-                                        artist.image
-                                    )}"
-                                    alt="${escapeHtml(
-                                        artist.name
-                                    )}"
-                                >
-                            `
-                            : ""
-                    }
-
-                </div>
-
-
-                <div
-                    class="ranking-info"
-                >
-
-                    <h3>
-                        ${escapeHtml(
-                            artist.name
-                        )}
-                    </h3>
-
-                    <p>
-                        ${count}
-                        afspilninger
-                    </p>
-
-                </div>
-
-            `;
-
-
-            profileTopArtists.appendChild(
-                item
-            );
-
-        }
-    );
+    }
 
 }
 

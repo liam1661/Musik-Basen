@@ -5,16 +5,32 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Profil – MusikBasen</title>
 
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../theme.css">
+    <link
+        rel="stylesheet"
+        href="../styles.css"
+    >
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="stylesheet"
+        href="../theme.css"
+    >
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
@@ -29,45 +45,75 @@
 <header>
 
     <div class="logo">
+
         <h1>MB</h1>
+
     </div>
 
 
     <nav>
 
-        <a href="../index.html">Forside</a>
+        <a href="../index.html">
+            Forside
+        </a>
 
-        <a href="artists.html">Kunstnere</a>
+        <a href="artists.html">
+            Kunstnere
+        </a>
 
-        <a href="albums.html">Albums</a>
+        <a href="albums.html">
+            Albums
+        </a>
 
-        <a href="songs.html">Sange</a>
+        <a href="songs.html">
+            Sange
+        </a>
 
-        <a href="playlists.html">Playlister</a>
+        <a href="playlists.html">
+            Playlister
+        </a>
 
-        <a href="rankings.html">Rankings</a>
+        <a href="rankings.html">
+            Rankings
+        </a>
 
     </nav>
 
 
     <div class="header-icons">
 
-        <button>🔍</button>
+    <button
+        id="search-button"
+        type="button"
+        aria-label="Søg"
+    >
+        🔍
+    </button>
 
-        <button>❤️</button>
+    <button
+        id="favorites-button"
+        type="button"
+        aria-label="Favoritter"
+    >
+        ❤️
+    </button>
 
-        <button
-            onclick="window.location.href='profile.html'"
-        >
-            👤
-        </button>
+    <button
+        id="profile-button"
+        type="button"
+        aria-label="Profil"
+    >
+        👤
+    </button>
 
-    </div>
+</div>
 
 </header>
 
 
 <main>
+
+    <!-- PROFIL -->
 
     <section class="profile-hero">
 
@@ -78,9 +124,13 @@
 
         <div class="profile-info">
 
-            <span>PROFIL</span>
+            <span>
+                PROFIL
+            </span>
 
-            <h1>MusikBasen Bruger</h1>
+            <h1>
+                MusikBasen Bruger
+            </h1>
 
             <p>
                 Din musik. Dine favoritter. Din statistik.
@@ -89,72 +139,86 @@
         </div>
 
     </section>
+
+
+    <!-- STATISTIK -->
+
+    <section class="profile-stats">
+
+        <div class="profile-stat-card">
+
+            <span class="profile-stat-icon">
+                ❤️
+            </span>
+
+            <div>
+
+                <strong id="stat-favorites">
+                    0
+                </strong>
+
+                <p>
+                    Favoritsange
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-stat-card">
+
+            <span class="profile-stat-icon">
+                🎵
+            </span>
+
+            <div>
+
+                <strong id="stat-played">
+                    0
+                </strong>
+
+                <p>
+                    Sange afspillet
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-stat-card">
+
+            <span class="profile-stat-icon">
+                🎤
+            </span>
+
+            <div>
+
+                <strong id="stat-artists">
+                    0
+                </strong>
+
+                <p>
+                    Kunstnere lyttet til
+                </p>
+
+            </div>
+
+        </div>
+
     </section>
 
 
-<!-- PROFILE STATS HER -->
-
-<section class="profile-stats">
-
-    <div class="profile-stat-card">
-
-        <span class="profile-stat-icon">❤️</span>
-
-        <div>
-
-            <strong id="stat-favorites">0</strong>
-
-            <p>Favoritsange</p>
-
-        </div>
-
-    </div>
-
-
-    <div class="profile-stat-card">
-
-        <span class="profile-stat-icon">🎵</span>
-
-        <div>
-
-            <strong id="stat-played">0</strong>
-
-            <p>Sange afspillet</p>
-
-        </div>
-
-    </div>
-
-
-    <div class="profile-stat-card">
-
-        <span class="profile-stat-icon">🎤</span>
-
-        <div>
-
-            <strong id="stat-artists">0</strong>
-
-            <p>Kunstnere lyttet til</p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="profile-section">
-
-    <div class="section-header">
-
-        <h2>Favoritsange</h2>
-
+    <!-- FAVORITSONGE -->
 
     <section class="profile-section">
 
         <div class="section-header">
 
-            <h2>Favoritsange</h2>
+            <h2>
+                Favoritsange
+            </h2>
 
         </div>
 
@@ -165,67 +229,87 @@
         ></div>
 
     </section>
-    
+
+
+    <!-- SENEST AFSPILLET -->
+
     <section class="profile-section">
 
-    <div class="section-header">
+        <div class="section-header">
 
-        <h2>Senest afspillet</h2>
+            <h2>
+                Senest afspillet
+            </h2>
 
-    </div>
-
-    <div
-        id="profile-history"
-        class="trending-grid"
-    ></div>
-
-    
-</section>
-
-<section class="profile-section">
-
-    <div class="section-header">
-
-        <h2>Mest afspillede sange</h2>
-
-    </div>
-
-    <div
-        id="profile-top-songs"
-        class="rankings-list"
-    ></div>
-
-</section>
+        </div>
 
 
-   <section class="profile-section">
+        <div
+            id="profile-history"
+            class="trending-grid"
+        ></div>
 
-    <div class="section-header profile-playlist-header">
+    </section>
 
-        <h2>Dine playlister</h2>
 
-        <button
-            id="create-playlist-button"
-            class="create-playlist-button"
-        >
-            + Opret playlist
-        </button>
+    <!-- MEST AFSPILLEDE SANGE -->
 
-    </div>
+    <section class="profile-section">
 
-    <div
-        id="profile-playlists"
-        class="playlists-grid"
-    ></div>
+        <div class="section-header">
 
-</section>
+            <h2>
+                Mest afspillede sange
+            </h2>
+
+        </div>
+
+
+        <div
+            id="profile-top-songs"
+            class="rankings-list"
+        ></div>
+
+    </section>
+
+
+    <!-- DINE PLAYLISTER -->
+
+    <section class="profile-section">
+
+        <div class="section-header profile-playlist-header">
+
+            <h2>
+                Dine playlister
+            </h2>
+
+
+            <button
+                id="create-playlist-button"
+                class="create-playlist-button"
+            >
+                + Opret playlist
+            </button>
+
+        </div>
+
+
+        <div
+            id="profile-playlists"
+            class="playlists-grid"
+        ></div>
+
+    </section>
 
 </main>
 
 
 <script src="../data/songs.js"></script>
+
 <script src="../data/playlists.js"></script>
+
 <script src="../script.js"></script>
+
 
 </body>
 
