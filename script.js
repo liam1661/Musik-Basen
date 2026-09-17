@@ -3619,7 +3619,7 @@ if (
    FAVORITES PAGE
 ========================================================= */
 
-function renderFavoritesPage() {
+function renderFavoritesPage() 
 
     const favoritesGrid =
     document.getElementById(
