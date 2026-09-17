@@ -240,10 +240,22 @@ function toggleFavorite(songId) {
     }
 
 
-    saveFavorites(favorites);
+    saveFavorites(
+        favorites
+    );
 
 
     updateFavoriteButtons();
+
+
+    if (
+        typeof renderFavoritesPage ===
+        "function"
+    ) {
+
+        renderFavoritesPage();
+
+    }
 
 }
 
@@ -3592,6 +3604,80 @@ if (
             song => {
 
                 profileFavorites.appendChild(
+                    createSongCard(song)
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FAVORITES PAGE
+========================================================= */
+
+function renderFavoritesPage() {
+
+    const favoritesGrid =
+    document.getElementById(
+        "favorites-grid"
+    );
+
+const favoritesEmpty =
+    document.getElementById(
+        "favorites-empty"
+    );
+
+
+if (
+    favoritesGrid &&
+    typeof songs !== "undefined"
+) {
+
+    const favorites =
+        getFavorites();
+
+
+    const favoriteSongs =
+        songs.filter(
+            song =>
+                favorites.includes(
+                    song.id
+                )
+        );
+
+
+    favoritesGrid.innerHTML = "";
+
+
+    if (
+        favoriteSongs.length === 0
+    ) {
+
+        if (favoritesEmpty) {
+
+            favoritesEmpty.style.display =
+                "block";
+
+        }
+
+    } else {
+
+        if (favoritesEmpty) {
+
+            favoritesEmpty.style.display =
+                "none";
+
+        }
+
+
+                favoriteSongs.forEach(
+            song => {
+
+                favoritesGrid.appendChild(
                     createSongCard(song)
                 );
 
