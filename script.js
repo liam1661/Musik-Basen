@@ -3697,74 +3697,76 @@ if (
 }
 
 
-/* =========================================================
+//* =========================================================
    FAVORITES PAGE
-========================================================= */
+   ========================================================= */
 
-function renderFavoritesPage() 
+function renderFavoritesPage() {
 
     const favoritesGrid =
-    document.getElementById(
-        "favorites-grid"
-    );
-
-const favoritesEmpty =
-    document.getElementById(
-        "favorites-empty"
-    );
-
-
-if (
-    favoritesGrid &&
-    typeof songs !== "undefined"
-) {
-
-    const favorites =
-        getFavorites();
-
-
-    const favoriteSongs =
-        songs.filter(
-            song =>
-                favorites.includes(
-                    song.id
-                )
+        document.getElementById(
+            "favorites-grid"
         );
 
-
-    favoritesGrid.innerHTML = "";
+    const favoritesEmpty =
+        document.getElementById(
+            "favorites-empty"
+        );
 
 
     if (
-        favoriteSongs.length === 0
+        favoritesGrid &&
+        typeof songs !== "undefined"
     ) {
 
-        if (favoritesEmpty) {
-
-            favoritesEmpty.style.display =
-                "block";
-
-        }
-
-    } else {
-
-        if (favoritesEmpty) {
-
-            favoritesEmpty.style.display =
-                "none";
-
-        }
+        const favorites =
+            getFavorites();
 
 
-                favoriteSongs.forEach(
-            song => {
+        const favoriteSongs =
+            songs.filter(
+                song =>
+                    favorites.includes(
+                        song.id
+                    )
+            );
 
-                favoritesGrid.appendChild(
-                    createSongCard(song)
-                );
+
+        favoritesGrid.innerHTML = "";
+
+
+        if (
+            favoriteSongs.length === 0
+        ) {
+
+            if (favoritesEmpty) {
+
+                favoritesEmpty.style.display =
+                    "block";
 
             }
-        );
+
+        } else {
+
+            if (favoritesEmpty) {
+
+                favoritesEmpty.style.display =
+                    "none";
+
+            }
+
+
+            favoriteSongs.forEach(
+                song => {
+
+                    favoritesGrid.appendChild(
+                        createSongCard(song)
+                    );
+
+                }
+            );
+
+        }
 
     }
 
