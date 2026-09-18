@@ -384,6 +384,82 @@ function getPlayCount(songId) {
 
 }
 
+/* =========================================================
+   HOME — TRENDING
+========================================================= */
+
+function renderHomeTrending() {
+
+    const trendingGrid =
+        document.getElementById(
+            "home-trending-grid"
+        );
+
+
+    if (
+        !trendingGrid ||
+        typeof songs === "undefined"
+    ) {
+        return;
+    }
+
+
+    const trendingSongs =
+        [...songs]
+            .sort(
+                (a, b) =>
+                    getPlayCount(b.id) -
+                    getPlayCount(a.id)
+            )
+            .slice(
+                0,
+                5
+            );
+
+
+    const hasPlays =
+        trendingSongs.some(
+            song =>
+                getPlayCount(song.id) > 0
+        );
+
+
+    trendingGrid.innerHTML = "";
+
+
+    if (!hasPlays) {
+
+        trendingGrid.innerHTML = `
+            <p class="empty-message">
+                Trending bliver fyldt,
+                når MusikBasen begynder
+                at få afspilninger.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    trendingSongs.forEach(
+        song => {
+
+            trendingGrid.appendChild(
+                createSongCard(song)
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   START HOME TRENDING
+========================================================= */
+
+renderHomeTrending();
+
 
 /* =========================================================
    SONG CARD BUILDER
@@ -641,6 +717,12 @@ function selectSong(song) {
     addToPlayHistory(
         song.id
     );
+
+    if (
+    typeof renderHomeTrending === "function"
+) {
+    renderHomeTrending();
+}
 
 
     updatePlayerInfo(song);
