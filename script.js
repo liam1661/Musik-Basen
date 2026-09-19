@@ -518,16 +518,35 @@ function createSongCard(song) {
         </div>
 
 
-        <button
-            class="favorite-song-button"
-            data-song-id="${song.id}"
-            aria-label="Tilføj til favoritter"
-        >
-            ♡
-        </button>
+        <div class="song-card-actions">
+
+            <button
+                class="add-to-playlist-button"
+                data-song-id="${song.id}"
+                aria-label="Tilføj til playlist"
+                title="Tilføj til playlist"
+            >
+                ＋
+            </button>
+
+
+            <button
+                class="favorite-song-button"
+                data-song-id="${song.id}"
+                aria-label="Tilføj til favoritter"
+                title="Tilføj til favoritter"
+            >
+                ♡
+            </button>
+
+        </div>
 
     `;
 
+
+    /* =========================================================
+       FAVORITTER ❤️
+    ========================================================= */
 
     const favoriteButton =
         songCard.querySelector(
@@ -569,6 +588,40 @@ function createSongCard(song) {
     }
 
 
+    /* =========================================================
+       TILFØJ TIL PLAYLIST ＋
+    ========================================================= */
+
+    const addToPlaylistButton =
+        songCard.querySelector(
+            ".add-to-playlist-button"
+        );
+
+
+    if (
+        addToPlaylistButton
+    ) {
+
+        addToPlaylistButton.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                openAddToPlaylistMenu(
+                    song
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       KLIK PÅ SANGKORT
+    ========================================================= */
+
     songCard.addEventListener(
         "click",
         () => {
@@ -580,6 +633,273 @@ function createSongCard(song) {
 
 
     return songCard;
+
+}
+
+/* =========================================================
+   TILFØJ SANG TIL PLAYLIST-MENU
+========================================================= */
+
+function openAddToPlaylistMenu(song) {
+
+    const existingMenu =
+        document.getElementById(
+            "add-to-playlist-menu"
+        );
+
+
+    if (
+        existingMenu
+    ) {
+
+        existingMenu.remove();
+
+    }
+
+
+    const userPlaylists =
+        getUserPlaylists();
+
+
+    const overlay =
+        document.createElement("div");
+
+
+    overlay.id =
+        "add-to-playlist-menu";
+
+
+    overlay.className =
+        "add-to-playlist-overlay";
+
+
+    const menu =
+        document.createElement("div");
+
+
+    menu.className =
+        "add-to-playlist-modal";
+
+
+    menu.innerHTML = `
+
+        <div class="add-to-playlist-header">
+
+            <div>
+
+                <span>
+                    TILFØJ TIL PLAYLIST
+                </span>
+
+                <h2>
+                    ${escapeHtml(song.title)}
+                </h2>
+
+                <p>
+                    ${escapeHtml(song.artist)}
+                </p>
+
+            </div>
+
+
+            <button
+                class="close-playlist-menu"
+                aria-label="Luk"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="playlist-select-list"></div>
+
+    `;
+
+
+    overlay.appendChild(
+        menu
+    );
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    const playlistList =
+        menu.querySelector(
+            ".playlist-select-list"
+        );
+
+
+    const closeButton =
+        menu.querySelector(
+            ".close-playlist-menu"
+        );
+
+
+    closeButton.addEventListener(
+        "click",
+        () => {
+
+            overlay.remove();
+
+        }
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === overlay
+            ) {
+
+                overlay.remove();
+
+            }
+
+        }
+    );
+
+
+    if (
+        userPlaylists.length === 0
+    ) {
+
+        playlistList.innerHTML = `
+
+            <div class="no-playlists-message">
+
+                <p>
+                    Du har ingen playlister endnu.
+                </p>
+
+                <a
+                    href="${pageUrl(
+                        "playlists.html"
+                    )}"
+                >
+                    ＋ Opret en playlist
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    userPlaylists.forEach(
+        playlist => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "playlist-select-button";
+
+
+            const alreadyAdded =
+                Array.isArray(
+                    playlist.songs
+                ) &&
+                playlist.songs.includes(
+                    song.id
+                );
+
+
+            button.innerHTML = `
+
+                <span class="playlist-select-icon">
+                    ▶
+                </span>
+
+                <span class="playlist-select-info">
+
+                    <strong>
+                        ${escapeHtml(
+                            playlist.name
+                        )}
+                    </strong>
+
+                    <small>
+                        ${
+                            Array.isArray(
+                                playlist.songs
+                            )
+                                ? playlist.songs.length
+                                : 0
+                        }
+                        sange
+                    </small>
+
+                </span>
+
+                <span class="playlist-select-status">
+                    ${
+                        alreadyAdded
+                            ? "✓"
+                            : "＋"
+                    }
+                </span>
+
+            `;
+
+
+            if (
+                alreadyAdded
+            ) {
+
+                button.classList.add(
+                    "already-added"
+                );
+
+            }
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    if (
+                        alreadyAdded
+                    ) {
+
+                        removeSongFromUserPlaylist(
+                            playlist.id,
+                            song.id
+                        );
+
+                    } else {
+
+                        addSongToUserPlaylist(
+                            playlist.id,
+                            song.id
+                        );
+
+                    }
+
+
+                    overlay.remove();
+
+                }
+            );
+
+
+            playlistList.appendChild(
+                button
+            );
+
+        }
+    );
 
 }
 
@@ -2502,6 +2822,101 @@ if (
 
 }
 
+/* =========================================================
+   BRUGERENS PLAYLISTER PÅ PLAYLIST-SIDEN
+========================================================= */
+
+function renderUserPlaylistsOnPage() {
+
+    const playlistsGrid =
+        document.getElementById(
+            "playlists-grid"
+        );
+
+
+    if (!playlistsGrid) {
+        return;
+    }
+
+
+    const userPlaylists =
+        getUserPlaylists();
+
+
+    userPlaylists.forEach(
+        playlist => {
+
+            const playlistCard =
+                document.createElement(
+                    "div"
+                );
+
+
+            playlistCard.className =
+                "playlist-card";
+
+
+            playlistCard.innerHTML = `
+
+                <div class="playlist-image">
+                    <span>▶</span>
+                </div>
+
+                <div class="playlist-info">
+
+                    <h3>
+                        ${escapeHtml(
+                            playlist.name
+                        )}
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(
+                            playlist.description || ""
+                        )}
+                    </p>
+
+                    <span>
+                        ${
+                            Array.isArray(
+                                playlist.songs
+                            )
+                                ? playlist.songs.length
+                                : 0
+                        }
+                        sange • Din playlist
+                    </span>
+
+                </div>
+
+            `;
+
+
+            playlistCard.addEventListener(
+                "click",
+                () => {
+
+                    window.location.href =
+                        pageUrl(
+                            `playlists.html?id=${playlist.id}&user=true`
+                        );
+
+                }
+            );
+
+
+            playlistsGrid.appendChild(
+                playlistCard
+            );
+
+        }
+    );
+
+}
+
+
+renderUserPlaylistsOnPage();
+
 
 /* =========================================================
    USER PLAYLIST HELPERS
@@ -3027,6 +3442,153 @@ function createUserPlaylist(
 
 
     return newPlaylist;
+
+}
+
+
+/* =========================================================
+   OPRET PLAYLIST FRA FORMULAR
+========================================================= */
+
+const createPlaylistButton =
+    document.getElementById(
+        "create-playlist-button"
+    );
+
+const createPlaylistForm =
+    document.getElementById(
+        "create-playlist-form"
+    );
+
+const newPlaylistName =
+    document.getElementById(
+        "new-playlist-name"
+    );
+
+const newPlaylistDescription =
+    document.getElementById(
+        "new-playlist-description"
+    );
+
+const savePlaylistButton =
+    document.getElementById(
+        "save-playlist-button"
+    );
+
+const cancelPlaylistButton =
+    document.getElementById(
+        "cancel-playlist-button"
+    );
+
+
+if (
+    createPlaylistButton &&
+    createPlaylistForm
+) {
+
+    createPlaylistButton.addEventListener(
+        "click",
+        () => {
+
+            createPlaylistForm.style.display =
+                "block";
+
+            if (newPlaylistName) {
+                newPlaylistName.focus();
+            }
+
+        }
+    );
+
+}
+
+
+if (
+    cancelPlaylistButton &&
+    createPlaylistForm
+) {
+
+    cancelPlaylistButton.addEventListener(
+        "click",
+        () => {
+
+            createPlaylistForm.style.display =
+                "none";
+
+            if (newPlaylistName) {
+                newPlaylistName.value = "";
+            }
+
+            if (newPlaylistDescription) {
+                newPlaylistDescription.value = "";
+            }
+
+        }
+    );
+
+}
+
+
+if (
+    savePlaylistButton &&
+    createPlaylistForm
+) {
+
+    savePlaylistButton.addEventListener(
+        "click",
+        () => {
+
+            const name =
+                newPlaylistName
+                    ? newPlaylistName.value.trim()
+                    : "";
+
+            const description =
+                newPlaylistDescription
+                    ? newPlaylistDescription.value.trim()
+                    : "";
+
+
+            if (!name) {
+
+                alert(
+                    "Skriv et navn til din playlist."
+                );
+
+                return;
+
+            }
+
+
+            const newPlaylist =
+                createUserPlaylist(
+                    name,
+                    description
+                );
+
+
+            if (!newPlaylist) {
+                return;
+            }
+
+
+            createPlaylistForm.style.display =
+                "none";
+
+
+            if (newPlaylistName) {
+                newPlaylistName.value = "";
+            }
+
+            if (newPlaylistDescription) {
+                newPlaylistDescription.value = "";
+            }
+
+
+            window.location.reload();
+
+        }
+    );
 
 }
 

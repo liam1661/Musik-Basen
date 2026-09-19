@@ -146,3 +146,292 @@ body {
     box-shadow: var(--shadow-medium);
 
 }
+/* =========================================================
+   SONG CARD ACTIONS
+========================================================= */
+
+.music-card {
+    position: relative;
+}
+
+
+.song-card-actions {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+
+    display: flex;
+    gap: 6px;
+}
+
+
+.song-card-actions button {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.add-to-playlist-button {
+    background: #252525;
+    color: #ffffff;
+}
+
+
+.add-to-playlist-button:hover {
+    background: #ff7a00;
+    transform: scale(1.08);
+}
+
+
+.favorite-song-button {
+    background: #252525;
+    color: #ffffff;
+}
+
+
+.favorite-song-button:hover,
+.favorite-song-button.active {
+    background: #ff7a00;
+    color: #ffffff;
+    transform: scale(1.08);
+}
+
+
+/* =========================================================
+   ADD TO PLAYLIST MENU
+========================================================= */
+
+.add-to-playlist-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.72);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+
+    padding: 20px;
+}
+
+
+.add-to-playlist-modal {
+    width: 100%;
+    max-width: 460px;
+
+    background: #181818;
+
+    border: 1px solid #303030;
+
+    border-radius: 18px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+
+.add-to-playlist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+.add-to-playlist-header span {
+    color: #ff7a00;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+}
+
+
+.add-to-playlist-header h2 {
+    margin: 4px 0 2px;
+
+    font-size: 21px;
+}
+
+
+.add-to-playlist-header p {
+    margin: 0;
+
+    color: #999;
+
+    font-size: 14px;
+}
+
+
+.close-playlist-menu {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #252525;
+
+    color: #ffffff;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.close-playlist-menu:hover {
+    background: #333;
+}
+
+
+/* =========================================================
+   PLAYLIST-LISTE
+========================================================= */
+
+.playlist-select-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.playlist-select-button {
+    width: 100%;
+
+    border: 1px solid #292929;
+
+    background: #202020;
+
+    color: #ffffff;
+
+    border-radius: 12px;
+
+    padding: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.playlist-select-button:hover {
+    background: #292929;
+
+    border-color: #ff7a00;
+}
+
+
+.playlist-select-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 9px;
+
+    background: #ff7a00;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+}
+
+
+.playlist-select-info {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.playlist-select-info strong {
+    font-size: 14px;
+}
+
+
+.playlist-select-info small {
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+.playlist-select-status {
+    font-size: 20px;
+
+    color: #ff7a00;
+}
+
+
+.playlist-select-button.already-added {
+    opacity: 0.85;
+}
+
+
+.no-playlists-message {
+    text-align: center;
+
+    padding: 25px 10px;
+
+    color: #999;
+}
+
+
+.no-playlists-message p {
+    margin-bottom: 12px;
+}
+
+
+.no-playlists-message a {
+    color: #ff7a00;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}

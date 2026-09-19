@@ -72,11 +72,57 @@
 
         <div class="section-header">
 
-            <h2>MusikBasen Playlister</h2>
+    <h2>MusikBasen Playlister</h2>
 
-        </div>
+    <button
+        class="create-playlist-button"
+        id="create-playlist-button"
+    >
+        ＋ Opret playlist
+    </button>
+
+</div>
 
         <div id="playlists-grid" class="playlists-grid"></div>
+        
+        <div
+    id="create-playlist-form"
+    class="create-playlist-form"
+    style="display: none;"
+>
+
+    <input
+        type="text"
+        id="new-playlist-name"
+        placeholder="Navn på playlist"
+        maxlength="40"
+    >
+
+    <textarea
+        id="new-playlist-description"
+        placeholder="Beskrivelse (valgfri)"
+        maxlength="120"
+    ></textarea>
+
+    <div class="create-playlist-actions">
+
+        <button
+            id="save-playlist-button"
+            class="save-playlist-button"
+        >
+            Opret
+        </button>
+
+        <button
+            id="cancel-playlist-button"
+            class="cancel-playlist-button"
+        >
+            Annuller
+        </button>
+
+    </div>
+
+</div>
 
     </section>
 <section id="playlist-detail" style="display: none;">
