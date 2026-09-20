@@ -1135,50 +1135,50 @@ function openAddToPlaylistMenu(song) {
 
 
     /* =========================================================
-       TILFØJ TIL PLAYLIST ＋
-    ========================================================= */
+   TILFØJ TIL PLAYLIST ＋
+========================================================= */
 
-    const addToPlaylistButton =
-        songCard.querySelector(
-            ".add-to-playlist-button"
-        );
-
-
-    if (
-        addToPlaylistButton
-    ) {
-
-        addToPlaylistButton.addEventListener(
-            "click",
-            event => {
-
-                event.stopPropagation();
-
-                openAddToPlaylistMenu(
-                    song
-                );
-
-            }
-        );
-
-    }
+const addToPlaylistButton =
+    songCard.querySelector(
+        ".add-to-playlist-button"
+    );
 
 
-    /* =========================================================
-       KLIK PÅ SANGKORT
-    ========================================================= */
+if (
+    addToPlaylistButton
+) {
 
-    songCard.addEventListener(
+    addToPlaylistButton.addEventListener(
         "click",
-        () => {
+        event => {
 
-            selectSong(song);
+            event.stopPropagation();
+
+            openAddToPlaylistMenu(
+                song
+            );
 
         }
     );
 
+}
 
-    return songCard;
+
+/* =========================================================
+   KLIK PÅ SANGKORT
+========================================================= */
+
+songCard.addEventListener(
+    "click",
+    () => {
+
+        selectSong(song);
+
+    }
+);
+
+
+return songCard;
 
 }
 
