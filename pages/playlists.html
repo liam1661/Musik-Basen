@@ -46,11 +46,28 @@
 
     <div class="header-icons">
 
-        <button>🔍</button>
-        <button>❤️</button>
-        <button>👤</button>
+    <button
+        id="search-button"
+        aria-label="Søg"
+    >
+        🔍
+    </button>
 
-    </div>
+    <button
+        id="favorites-button"
+        aria-label="Favoritter"
+    >
+        ❤️
+    </button>
+
+    <button
+        id="profile-button"
+        aria-label="Profil"
+    >
+        👤
+    </button>
+
+</div>
 
 </header>
 
@@ -87,38 +104,84 @@
         
         <div
     id="create-playlist-form"
-    class="create-playlist-form"
+    class="create-playlist-overlay"
     style="display: none;"
 >
 
-    <input
-        type="text"
-        id="new-playlist-name"
-        placeholder="Navn på playlist"
-        maxlength="40"
-    >
+    <div
+    id="create-playlist-form"
+    class="create-playlist-overlay"
+    style="display: none;"
+>
 
-    <textarea
-        id="new-playlist-description"
-        placeholder="Beskrivelse (valgfri)"
-        maxlength="120"
-    ></textarea>
+    <div class="create-playlist-modal">
 
-    <div class="create-playlist-actions">
+        <div class="create-playlist-header">
 
-        <button
-            id="save-playlist-button"
-            class="save-playlist-button"
-        >
-            Opret
-        </button>
+            <div>
 
-        <button
-            id="cancel-playlist-button"
-            class="cancel-playlist-button"
-        >
-            Annuller
-        </button>
+                <span class="create-playlist-label">
+                    NY PLAYLIST
+                </span>
+
+                <h2>
+                    Opret playlist
+                </h2>
+
+                <p>
+                    Lav din egen samling af sange.
+                </p>
+
+            </div>
+
+            <button
+                id="cancel-playlist-button"
+                class="create-playlist-close"
+                aria-label="Luk"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="create-playlist-fields">
+
+            <label for="new-playlist-name">
+                Navn
+            </label>
+
+            <input
+                type="text"
+                id="new-playlist-name"
+                placeholder="Fx Sommer 2027"
+                maxlength="40"
+            >
+
+
+            <label for="new-playlist-description">
+                Beskrivelse
+            </label>
+
+            <textarea
+                id="new-playlist-description"
+                placeholder="Hvad er playlisten til?"
+                maxlength="120"
+            ></textarea>
+
+        </div>
+
+
+        <div class="create-playlist-actions">
+
+            <button
+                id="save-playlist-button"
+                class="save-playlist-button"
+            >
+                Opret playlist
+            </button>
+
+        </div>
 
     </div>
 

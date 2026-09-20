@@ -470,16 +470,13 @@ function createSongCard(song) {
     const songCard =
         document.createElement("div");
 
-
     songCard.className =
         "music-card";
-
 
     const cover =
         song.cover ||
         song.image ||
         "";
-
 
     songCard.innerHTML = `
 
@@ -518,32 +515,581 @@ function createSongCard(song) {
         </div>
 
 
-        <div class="song-card-actions">
-
-            <button
-                class="add-to-playlist-button"
-                data-song-id="${song.id}"
-                aria-label="Tilføj til playlist"
-                title="Tilføj til playlist"
-            >
-                ＋
-            </button>
-
-
-            <button
-                class="favorite-song-button"
-                data-song-id="${song.id}"
-                aria-label="Tilføj til favoritter"
-                title="Tilføj til favoritter"
-            >
-                ♡
-            </button>
-
-        </div>
+        <button
+            class="song-options-button"
+            data-song-id="${song.id}"
+            aria-label="Flere muligheder"
+            title="Flere muligheder"
+        >
+            ⋮
+        </button>
 
     `;
 
 
+    /* =========================================================
+       ⋮ MENU
+    ========================================================= */
+
+    const optionsButton =
+        songCard.querySelector(
+            ".song-options-button"
+        );
+
+
+    if (optionsButton) {
+
+        optionsButton.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                openSongOptionsMenu(
+                    song,
+                    optionsButton
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       KLIK PÅ SANGKORT
+    ========================================================= */
+
+    songCard.addEventListener(
+        "click",
+        () => {
+
+            selectSong(song);
+
+        }
+    );
+
+
+    return songCard;
+
+}
+
+
+/* =========================================================
+   SANGENS ⋮ MENU
+========================================================= */
+
+function openSongOptionsMenu(
+    song,
+    button
+) {
+
+    const existingMenu =
+        document.getElementById(
+            "song-options-menu"
+        );
+
+
+    if (existingMenu) {
+
+        existingMenu.remove();
+
+    }
+
+
+    const menu =
+        document.createElement("div");
+
+
+    menu.id =
+        "song-options-menu";
+
+    menu.className =
+        "song-options-menu";
+
+
+    const favorite =
+        isFavorite(song.id);
+
+
+    menu.innerHTML = `
+
+        <button
+            class="song-option-item"
+            data-option="playlist"
+        >
+
+            <span class="song-option-icon">
+                ＋
+            </span>
+
+            <span>
+                Tilføj til playlist
+            </span>
+
+        </button>
+
+
+        <button
+            class="song-option-item"
+            data-option="favorite"
+        >
+
+            <span class="song-option-icon">
+                ${favorite ? "♥" : "♡"}
+            </span>
+
+            <span>
+                ${
+                    favorite
+                        ? "Fjern fra favoritter"
+                        : "Tilføj til favoritter"
+                }
+            </span>
+
+        </button>
+
+    `;
+
+
+    document.body.appendChild(
+        menu
+    );
+
+
+    /* =========================================================
+       PLACER MENUEN VED ⋮
+    ========================================================= */
+
+    const buttonRect =
+        button.getBoundingClientRect();
+
+
+    const menuWidth = 220;
+
+
+    let left =
+        buttonRect.right -
+        menuWidth;
+
+
+    let top =
+        buttonRect.bottom +
+        8;
+
+
+    /* Holder menuen indenfor skærmen */
+
+    if (left < 10) {
+
+        left = 10;
+
+    }
+
+
+    if (
+        left + menuWidth >
+        window.innerWidth - 10
+    ) {
+
+        left =
+            window.innerWidth -
+            menuWidth -
+            10;
+
+    }
+
+
+    if (
+        top + 120 >
+        window.innerHeight - 10
+    ) {
+
+        top =
+            buttonRect.top -
+            128;
+
+    }
+
+
+    menu.style.left =
+        `${left}px`;
+
+    menu.style.top =
+        `${top}px`;
+
+
+    /* =========================================================
+       TILFØJ TIL PLAYLIST
+    ========================================================= */
+
+    const playlistOption =
+        menu.querySelector(
+            '[data-option="playlist"]'
+        );
+
+
+    if (playlistOption) {
+
+        playlistOption.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                menu.remove();
+
+                openAddToPlaylistMenu(
+                    song
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       FAVORIT
+    ========================================================= */
+
+    const favoriteOption =
+        menu.querySelector(
+            '[data-option="favorite"]'
+        );
+
+
+    if (favoriteOption) {
+
+        favoriteOption.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                toggleFavorite(
+                    song.id
+                );
+
+                menu.remove();
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       LUK VED KLIK UDENFOR
+    ========================================================= */
+
+    setTimeout(
+        () => {
+
+            document.addEventListener(
+                "click",
+                function closeSongMenu(event) {
+
+                    if (
+                        !menu.contains(
+                            event.target
+                        ) &&
+                        event.target !== button
+                    ) {
+
+                        menu.remove();
+
+                        document.removeEventListener(
+                            "click",
+                            closeSongMenu
+                        );
+
+                    }
+
+                }
+            );
+
+        },
+        0
+    );
+
+}
+
+
+/* =========================================================
+   TILFØJ SANG TIL PLAYLIST-MENU
+========================================================= */
+
+function openAddToPlaylistMenu(song) {
+
+    const existingMenu =
+        document.getElementById(
+            "add-to-playlist-menu"
+        );
+
+
+    if (existingMenu) {
+
+        existingMenu.remove();
+
+    }
+
+
+    const userPlaylists =
+        getUserPlaylists();
+
+
+    const overlay =
+        document.createElement("div");
+
+
+    overlay.id =
+        "add-to-playlist-menu";
+
+    overlay.className =
+        "add-to-playlist-overlay";
+
+
+    const menu =
+        document.createElement("div");
+
+
+    menu.className =
+        "add-to-playlist-modal";
+
+
+    menu.innerHTML = `
+
+        <div class="add-to-playlist-header">
+
+            <div>
+
+                <span>
+                    TILFØJ TIL PLAYLIST
+                </span>
+
+                <h2>
+                    ${escapeHtml(song.title)}
+                </h2>
+
+                <p>
+                    ${escapeHtml(song.artist)}
+                </p>
+
+            </div>
+
+
+            <button
+                class="close-playlist-menu"
+                aria-label="Luk"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="playlist-select-list"></div>
+
+    `;
+
+
+    overlay.appendChild(
+        menu
+    );
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    const playlistList =
+        menu.querySelector(
+            ".playlist-select-list"
+        );
+
+
+    const closeButton =
+        menu.querySelector(
+            ".close-playlist-menu"
+        );
+
+
+    closeButton.addEventListener(
+        "click",
+        () => {
+
+            overlay.remove();
+
+        }
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === overlay
+            ) {
+
+                overlay.remove();
+
+            }
+
+        }
+    );
+
+
+    if (
+        userPlaylists.length === 0
+    ) {
+
+        playlistList.innerHTML = `
+
+            <div class="no-playlists-message">
+
+                <div class="no-playlists-icon">
+                    ＋
+                </div>
+
+                <h3>
+                    Ingen playlister endnu
+                </h3>
+
+                <p>
+                    Opret din første playlist
+                    og gem dine yndlingssange.
+                </p>
+
+                <a
+                    href="${pageUrl(
+                        "playlists.html"
+                    )}"
+                >
+                    Opret playlist
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    userPlaylists.forEach(
+        playlist => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "playlist-select-button";
+
+
+            const alreadyAdded =
+                Array.isArray(
+                    playlist.songs
+                ) &&
+                playlist.songs.includes(
+                    song.id
+                );
+
+
+            button.innerHTML = `
+
+                <span class="playlist-select-icon">
+                    ▶
+                </span>
+
+
+                <span class="playlist-select-info">
+
+                    <strong>
+                        ${escapeHtml(
+                            playlist.name
+                        )}
+                    </strong>
+
+                    <small>
+                        ${
+                            Array.isArray(
+                                playlist.songs
+                            )
+                                ? playlist.songs.length
+                                : 0
+                        }
+                        sange
+                    </small>
+
+                </span>
+
+
+                <span class="playlist-select-status">
+                    ${
+                        alreadyAdded
+                            ? "✓"
+                            : "＋"
+                    }
+                </span>
+
+            `;
+
+
+            if (
+                alreadyAdded
+            ) {
+
+                button.classList.add(
+                    "already-added"
+                );
+
+            }
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    if (
+                        alreadyAdded
+                    ) {
+
+                        removeSongFromUserPlaylist(
+                            playlist.id,
+                            song.id
+                        );
+
+                    } else {
+
+                        addSongToUserPlaylist(
+                            playlist.id,
+                            song.id
+                        );
+
+                    }
+
+
+                    overlay.remove();
+
+                }
+            );
+
+
+            playlistList.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
     /* =========================================================
        FAVORITTER ❤️
     ========================================================= */
