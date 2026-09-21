@@ -1090,50 +1090,6 @@ function openAddToPlaylistMenu(song) {
     );
 
 }
-    /* =========================================================
-       FAVORITTER ❤️
-    ========================================================= */
-
-    const favoriteButton =
-        songCard.querySelector(
-            ".favorite-song-button"
-        );
-
-
-    if (
-        favoriteButton
-    ) {
-
-        if (
-            isFavorite(song.id)
-        ) {
-
-            favoriteButton.textContent =
-                "♥";
-
-            favoriteButton.classList.add(
-                "active"
-            );
-
-        }
-
-
-        favoriteButton.addEventListener(
-            "click",
-            event => {
-
-                event.stopPropagation();
-
-                toggleFavorite(
-                    song.id
-                );
-
-            }
-        );
-
-    }
-
-
 /* =========================================================
    TILFØJ TIL PLAYLIST ＋
 ========================================================= */
@@ -1142,7 +1098,6 @@ const addToPlaylistButton =
     songCard.querySelector(
         ".add-to-playlist-button"
     );
-
 
 if (
     addToPlaylistButton
@@ -1164,6 +1119,46 @@ if (
 }
 
 
+/* =========================================================
+   FAVORITTER ❤️
+========================================================= */
+
+const favoriteButton =
+    songCard.querySelector(
+        ".favorite-song-button"
+    );
+
+if (
+    favoriteButton
+) {
+
+    if (
+        isFavorite(song.id)
+    ) {
+
+        favoriteButton.textContent =
+            "♥";
+
+        favoriteButton.classList.add(
+            "active"
+        );
+
+    }
+
+    favoriteButton.addEventListener(
+        "click",
+        event => {
+
+            event.stopPropagation();
+
+            toggleFavorite(
+                song.id
+            );
+
+        }
+    );
+
+}
 
 
 /* =========================================================
