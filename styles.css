@@ -2344,3 +2344,207 @@ footer{
     }
 
 }
+/* =========================================================
+   SANGENS ⋮ MENU
+========================================================= */
+
+.song-options-menu {
+    position: fixed;
+    z-index: 9999;
+    width: 220px;
+    padding: 8px;
+    background: #171717;
+    border: 1px solid #303030;
+    border-radius: 14px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+.song-option-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #f5f5f5;
+    font-family: inherit;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.song-option-item:hover {
+    background: #252525;
+}
+
+.song-option-icon {
+    width: 22px;
+    text-align: center;
+    color: #ff6a00;
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   ⋮ KNAPPEN PÅ SANGKORT
+========================================================= */
+
+.song-options-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(15, 15, 15, 0.85);
+    color: #ffffff;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    opacity: 0;
+    transition:
+        opacity 0.15s ease,
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+.music-card {
+    position: relative;
+}
+
+.music-card:hover .song-options-button {
+    opacity: 1;
+}
+
+.song-options-button:hover {
+    background: #ff6a00;
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   OPRET PLAYLIST
+========================================================= */
+
+.create-playlist-button {
+    border: 0;
+    border-radius: 10px;
+
+    padding: 11px 17px;
+
+    background: #ff6a00;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+.create-playlist-button:hover {
+    background: #ff7b1a;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   PLAYLIST FORM
+========================================================= */
+
+.create-playlist-form {
+    margin: 18px 0 24px;
+    padding: 20px;
+
+    background: #171717;
+    border: 1px solid #303030;
+    border-radius: 16px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.create-playlist-form input,
+.create-playlist-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-bottom: 12px;
+    padding: 12px 14px;
+
+    border: 1px solid #353535;
+    border-radius: 9px;
+
+    background: #101010;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+}
+
+.create-playlist-form textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.create-playlist-form input:focus,
+.create-playlist-form textarea:focus {
+    border-color: #ff6a00;
+}
+
+.create-playlist-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.save-playlist-button,
+.cancel-playlist-button {
+    border: 0;
+    border-radius: 9px;
+
+    padding: 10px 16px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.save-playlist-button {
+    background: #ff6a00;
+    color: #ffffff;
+}
+
+.save-playlist-button:hover {
+    background: #ff7b1a;
+}
+
+.cancel-playlist-button {
+    background: #292929;
+    color: #ffffff;
+}
+
+.cancel-playlist-button:hover {
+    background: #383838;
+}
