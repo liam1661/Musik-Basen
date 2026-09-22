@@ -1090,34 +1090,6 @@ function openAddToPlaylistMenu(song) {
     );
 
 }
-/* =========================================================
-   TILFØJ TIL PLAYLIST ＋
-========================================================= */
-
-const addToPlaylistButton =
-    songCard.querySelector(
-        ".add-to-playlist-button"
-    );
-
-if (
-    addToPlaylistButton
-) {
-
-    addToPlaylistButton.addEventListener(
-        "click",
-        event => {
-
-            event.stopPropagation();
-
-            openAddToPlaylistMenu(
-                song
-            );
-
-        }
-    );
-
-}
-
 
 /* =========================================================
    FAVORITTER ❤️
