@@ -1096,7 +1096,9 @@ function openAddToPlaylistMenu(song) {
 ========================================================= */
 
 const favoriteButton =
+    songCard.querySelector(
         ".favorite-song-button"
+    );
 
 if (
     favoriteButton

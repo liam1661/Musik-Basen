@@ -2638,3 +2638,73 @@ footer{
 .cancel-playlist-button:hover {
     background: #353535;
 }
+/* =========================================================
+   PLAYLIST-KORT
+========================================================= */
+
+.playlist-card {
+    position: relative;
+    overflow: hidden;
+    background: #181818;
+    border: 1px solid #292929;
+    border-radius: 14px;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.playlist-card:hover {
+    transform: translateY(-4px);
+    border-color: #ff7a00;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-image {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        135deg,
+        #ff7a00,
+        #8f2cff
+    );
+    color: white;
+    font-size: 42px;
+}
+
+.playlist-image span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.25);
+    font-size: 28px;
+}
+
+.playlist-info {
+    padding: 16px;
+}
+
+.playlist-info h3 {
+    margin: 0 0 7px;
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.playlist-info p {
+    margin: 0 0 12px;
+    color: #a9a9a9;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.playlist-info span {
+    color: #777;
+    font-size: 12px;
+}
