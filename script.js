@@ -2984,64 +2984,86 @@ if (
 
 
         playlistCard.innerHTML = `
+    <div class="playlist-image">
+        <span>▶</span>
+    </div>
 
-            <div
-                class="playlist-image playlist-${escapeHtml(
-                    playlist.color || "default"
-                )}"
-            >
+    <div class="playlist-info">
+        <h3>
+            ${escapeHtml(playlist.name)}
+        </h3>
 
-                <span>▶</span>
+        <p>
+            ${escapeHtml(
+                playlist.description || ""
+            )}
+        </p>
 
-            </div>
+        <span>
+            ${
+                Array.isArray(playlist.songs)
+                    ? playlist.songs.length
+                    : 0
+            }
+            sange • Din playlist
+        </span>
+    </div>
 
-
-            <div class="playlist-info">
-
-                <h3>
-                    ${escapeHtml(
-                        playlist.name
-                    )}
-                </h3>
-
-                <p>
-                    ${escapeHtml(
-                        playlist.description
-                    )}
-                </p>
-
-                <span>
-                    ${
-                        Array.isArray(
-                            playlist.songs
-                        )
-                            ? playlist.songs.length
-                            : 0
-                    }
-                    sange
-                    •
-                    ${escapeHtml(
-                        playlist.creator ||
-                        "MusikBasen"
-                    )}
-                </span>
-
-            </div>
-
-        `;
+    <button
+        class="delete-playlist-button"
+        title="Slet playlist"
+    >
+        🗑️
+    </button>
+`;
 
 
         playlistCard.addEventListener(
-            "click",
-            () => {
+    "click",
+    event => {
+        if (
+            event.target.closest(
+                ".delete-playlist-button"
+            )
+        ) {
+            return;
+        }
 
-                window.location.href =
-                    pageUrl(
-                        `playlists.html?id=${playlist.id}`
-                    );
+        window.location.href =
+            pageUrl(
+                `playlists.html?id=${playlist.id}&user=true`
+            );
+    }
+);
 
+const deleteButton =
+    playlistCard.querySelector(
+        ".delete-playlist-button"
+    );
+
+if (deleteButton) {
+    deleteButton.addEventListener(
+        "click",
+        event => {
+            event.stopPropagation();
+
+            const confirmed =
+                confirm(
+                    `Er du sikker på, at du vil slette "${playlist.name}"?`
+                );
+
+            if (!confirmed) {
+                return;
             }
-        );
+
+            deleteUserPlaylist(
+                playlist.id
+            );
+
+            playlistCard.remove();
+        }
+    );
+}
 
 
         playlistsGrid.appendChild(

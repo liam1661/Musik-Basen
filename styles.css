@@ -2708,3 +2708,35 @@ footer{
     color: #777;
     font-size: 12px;
 }
+.delete-playlist-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.65);
+    color: #aaa;
+
+    font-size: 15px;
+    cursor: pointer;
+
+    opacity: 0;
+    transition: 0.2s ease;
+
+    z-index: 5;
+}
+
+.playlist-card:hover .delete-playlist-button {
+    opacity: 1;
+}
+
+.delete-playlist-button:hover {
+    background: #e53935;
+    color: white;
+    transform: scale(1.05);
+}
