@@ -2548,3 +2548,93 @@ footer{
 .cancel-playlist-button:hover {
     background: #383838;
 }
+/* =========================================================
+   OPRET PLAYLIST
+========================================================= */
+
+.create-playlist-button {
+    background: #ff7a00;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.create-playlist-button:hover {
+    background: #ff8f26;
+    transform: translateY(-1px);
+}
+
+.create-playlist-form {
+    background: #181818;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    padding: 20px;
+    margin: 0 0 24px 0;
+    max-width: 600px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.create-playlist-form input,
+.create-playlist-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: #101010;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 9px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+.create-playlist-form input:focus,
+.create-playlist-form textarea:focus {
+    border-color: #ff7a00;
+}
+
+.create-playlist-form textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.create-playlist-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.save-playlist-button,
+.cancel-playlist-button {
+    border: none;
+    border-radius: 9px;
+    padding: 10px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.save-playlist-button {
+    background: #ff7a00;
+    color: white;
+}
+
+.save-playlist-button:hover {
+    background: #ff8f26;
+}
+
+.cancel-playlist-button {
+    background: #292929;
+    color: #ddd;
+}
+
+.cancel-playlist-button:hover {
+    background: #353535;
+}
