@@ -3487,6 +3487,10 @@ function renderPlaylistDetail(
         "block";
 
 
+    /* ---------------------------------------------------------
+       PLAYLIST INFO
+    --------------------------------------------------------- */
+
     const playlistName =
         document.getElementById(
             "playlist-name"
@@ -3496,6 +3500,24 @@ function renderPlaylistDetail(
     const playlistDescription =
         document.getElementById(
             "playlist-description"
+        );
+
+
+    const playlistCreator =
+        document.getElementById(
+            "playlist-creator"
+        );
+
+
+    const playlistSongCount =
+        document.getElementById(
+            "playlist-song-count"
+        );
+
+
+    const playlistDetailImage =
+        document.getElementById(
+            "playlist-detail-image"
         );
 
 
@@ -3519,6 +3541,76 @@ function renderPlaylistDetail(
 
     }
 
+
+    if (
+        playlistCreator
+    ) {
+
+        playlistCreator.textContent =
+            isUserPlaylist
+                ? "Din playlist"
+                : (
+                    playlist.creator ||
+                    "MusikBasen"
+                );
+
+    }
+
+
+    const songCount =
+        Array.isArray(
+            playlist.songs
+        )
+            ? playlist.songs.length
+            : 0;
+
+
+    if (
+        playlistSongCount
+    ) {
+
+        playlistSongCount.textContent =
+            `${songCount} sange`;
+
+    }
+
+
+    if (
+        playlistDetailImage
+    ) {
+
+        playlistDetailImage.classList.toggle(
+            "user-playlist-cover",
+            isUserPlaylist
+        );
+
+    }
+
+
+    /* ---------------------------------------------------------
+       BRUGER-PLAYLIST MARKERING
+    --------------------------------------------------------- */
+
+    if (
+        isUserPlaylist
+    ) {
+
+        playlistDetail.classList.add(
+            "user-playlist-detail"
+        );
+
+    } else {
+
+        playlistDetail.classList.remove(
+            "user-playlist-detail"
+        );
+
+    }
+
+
+    /* ---------------------------------------------------------
+       PLAYLIST SANGE
+    --------------------------------------------------------- */
 
     const playlistSongs =
         document.getElementById(
@@ -3605,31 +3697,7 @@ function renderPlaylistDetail(
         }
     );
 
-
-    /*
-       Hvis det er brugerens playlist,
-       tilføjer vi en lille markering.
-    */
-
-    if (
-        isUserPlaylist
-    ) {
-
-        playlistDetail.classList.add(
-            "user-playlist-detail"
-        );
-
-    } else {
-
-        playlistDetail.classList.remove(
-            "user-playlist-detail"
-        );
-
-    }
-
 }
-
-
 /* =========================================================
    OPRET NY BRUGER-PLAYLIST
 ========================================================= */
